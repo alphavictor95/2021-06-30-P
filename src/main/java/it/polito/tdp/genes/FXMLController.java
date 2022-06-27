@@ -27,7 +27,7 @@ public class FXMLController {
     private Button btnRicerca;
 
     @FXML
-    private ComboBox<?> boxLocalizzazione;
+    private ComboBox<String> boxLocalizzazione;
 
     @FXML
     private TextArea txtResult;
@@ -39,7 +39,14 @@ public class FXMLController {
 
     @FXML
     void doStatistiche(ActionEvent event) {
+    	txtResult.clear();
 
+    	String selezionata = boxLocalizzazione.getValue();
+    	if(selezionata==null) {
+    		txtResult.appendText("Selezionare una localizzazione");
+    		return;
+    	}
+    	txtResult.appendText(model.getConnesse(selezionata));
     }
 
     @FXML
@@ -53,5 +60,7 @@ public class FXMLController {
 
 	public void setModel(Model model) {
 		this.model = model;
+		txtResult.appendText(model.creaGrafo());
+		boxLocalizzazione.getItems().addAll(model.getLocalizzazioni());
 	}
 }
